@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 def get_all_errors(file):
     df = pd.read_csv(file)
+    df['CONCAT of PNR&Invoice Number']=df['PNR']+df['Invoice Number']
     df['GST Amount'] = pd.to_numeric(df['GST Amount'], errors='coerce')
     for ind in df.index:
         for col in df.columns:
@@ -23,6 +24,7 @@ def get_all_errors(file):
             elif col == 'Customer GSTIN':
                 if len(df[col][ind])!=15:
                     print(f"Row {ind+2} Col name {col} - Customer GSTIN is not equal to 15 characters.")  
-
+    
+    df.to_csv('csv_files/processed_sample.csv',index=False)
 if __name__=='__main__':
     get_all_errors('csv_files/sample.csv')
